@@ -1,15 +1,14 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+import UniversalDisplay from './UniversalDisplay';
 
 export default function Name({ loading, error, data }) {
-    if (loading) {
-        return <div>Loading..</div>;
-    }
-    if (error) {
-        return <div>Error!</div>;
-    }
-    if (data) {
-        return <h2>{data.name}</h2>;
-    }
-    return null;
+    return (
+        <UniversalDisplay
+            loading={loading}
+            error={error}
+            data={data}
+            renderData={(data) => <h2>{data.name}</h2>}
+        />
+    );
 }

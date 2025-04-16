@@ -1,15 +1,14 @@
 // @flow
 import * as React from 'react';
+import UniversalDisplay from './UniversalDisplay';
 
 export default function City({ loading, error, data }) {
-    if (loading) {
-        return <div>Loading..</div>;
-    }
-    if (error) {
-        return <div>Error!</div>;
-    }
-    if (data) {
-        return <h3>{data.city}</h3>;
-    }
-    return null;
+    return (
+        <UniversalDisplay
+            loading={loading}
+            error={error}
+            data={data}
+            renderData={(data) => <h2>{data.city}</h2>}
+        />
+    );
 }
