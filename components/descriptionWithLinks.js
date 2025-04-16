@@ -1,13 +1,26 @@
 // @flow
 import * as React from 'react';
+import Link from './link';
 
-export default class DescriptionWithLinks extends React.Component {
-    render() {
-        const { description } = this.props;
-        return <div>{description}</div>;
+function normalizeLink(link) {
+    // Add https:// to the links if they don't have it
+    if (!link.startsWith('http://') && !link.startsWith('https://')) {
+        return `https://${link}`;
     }
+    return link;
 }
 
-DescriptionWithLinks.defaultProps = {
-    links: []
-};
+export default function DescriptionWithLinks({ description }) {
+    const links = description.match(/(https?:\/\/[^\s]+|www\.[^\s]+)/g) || [];
+    if (!links.length) {
+        return <div>{description}</div>;
+    }
+
+    const elements = description.split(/(https?:\/\/[^\s]+|www\.[^\s]+)/g).map((part, index) => 
+        part && part.trim().length > 0 && (links.includes(part) 
+            ? <Link key={index} url={normalizeLink(part)}>{part}</Link> 
+            : <span key={index}>{part}</span>)
+    );
+
+    return <div>{elements}</div>;
+}
