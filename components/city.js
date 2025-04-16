@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import UniversalDisplay from './UniversalDisplay';
+import UniversalDisplay from './universalDisplay';
 
 export default function City({ loading, error, data }) {
     return (

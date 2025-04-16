@@ -8,7 +8,7 @@ type Props = {
     renderData: (data: Object) => React.Node,
 };
 
-export default function UniversalDisplay({ loading, error, data, renderData }: Props) {
+export default function universalDisplay({ loading, error, data, renderData }: Props) {
     if (loading) {
         return <div>Loading..</div>;
     }
