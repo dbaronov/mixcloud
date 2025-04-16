@@ -1,31 +1,21 @@
 // @flow
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Name from '../components/name';
 
-type State = {
-    loading: boolean,
-    error: ?Error,
-    data: ?Object
-};
+export default function NameContainer() {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<?Error>(null);
+    const [data, setData] = useState<?Object>(null);
 
-export default class NameContainer extends React.Component<{}, State> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            error: null,
-            data: null
-        };
-    }
-
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ loading: false, data: { name: 'John Smith' } });
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+            setData({ name: 'John Smith' });
         }, 2500);
-    }
 
-    render() {
-        const { loading, error, data } = this.state;
-        return <Name {...{ loading, error, data }} />;
-    }
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timer);
+    }, []); // Empty dependency array ensures this runs only once
+
+    return <Name loading={loading} error={error} data={data} />;
 }

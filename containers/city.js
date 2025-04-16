@@ -1,31 +1,21 @@
 // @flow
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import City from '../components/city';
 
-type State = {
-    loading: boolean,
-    error: ?Error,
-    data: ?Object
-};
+export default function CityContainer() {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<?Error>(null);
+    const [data, setData] = useState<?Object>(null);
 
-export default class CityContainer extends React.Component<{}, State> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            error: null,
-            data: null
-        };
-    }
-
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ loading: false, data: { city: 'London, UK' } });
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+            setData({ city: 'London, UK' });
         }, 2000);
-    }
 
-    render() {
-        const { loading, error, data } = this.state;
-        return <City {...{ loading, error, data }} />;
-    }
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timer);
+    }, []); // Empty dependency array ensures this runs only once
+
+    return <City loading={loading} error={error} data={data} />;
 }
